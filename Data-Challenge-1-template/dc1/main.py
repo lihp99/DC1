@@ -1,8 +1,8 @@
 # Custom imports
-from dc1.batch_sampler import BatchSampler
-from dc1.image_dataset import ImageDataset
-from dc1.net import Net
-from dc1.train_test import train_model, test_model
+from batch_sampler import BatchSampler
+from image_dataset import ImageDataset
+from net import Net
+from train_test import train_model, test_model
 
 # Torch imports
 import torch
