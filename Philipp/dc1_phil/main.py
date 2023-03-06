@@ -20,12 +20,14 @@ from datetime import datetime
 from pathlib import Path
 from typing import List
 
-
+path_phil = r"C:\Users\20214658\Desktop\Uni\Year 2\Q3\Data Challenge 1"
 def main(args: argparse.Namespace, activeloop: bool = True) -> None:
 
     # Load the train and test data set
-    train_dataset = ImageDataset(Path("data/X_train.npy"), Path("data/Y_train.npy"))
-    test_dataset = ImageDataset(Path("data/X_test.npy"), Path("data/Y_test.npy"))
+    # train_dataset = ImageDataset(Path("data/X_train.npy"), Path("data/Y_train.npy"))
+    # test_dataset = ImageDataset(Path("data/X_test.npy"), Path("data/Y_test.npy"))
+    train_dataset = ImageDataset(path_phil+"\\data\\X_train.npy", path_phil+"\\data\\Y_train.npy")
+    test_dataset = ImageDataset(path_phil+"\\data\\X_test.npy", path_phil+"\\data\\Y_test.npy")
 
     # Load the Neural Net. NOTE: set number of distinct labels here
     model = Net(n_classes=6)
