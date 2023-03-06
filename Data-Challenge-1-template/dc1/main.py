@@ -24,8 +24,8 @@ from typing import List
 def main(args: argparse.Namespace, activeloop: bool = True) -> None:
 
     # Load the train and test data set
-    train_dataset = ImageDataset(Path("data/X_train.npy"), Path("data/Y_train.npy"))
-    test_dataset = ImageDataset(Path("data/X_test.npy"), Path("data/Y_test.npy"))
+    train_dataset = ImageDataset(Path("../data/X_train.npy"), Path("../data/Y_train.npy"))
+    test_dataset = ImageDataset(Path("../data/X_test.npy"), Path("../data/Y_test.npy"))
 
     # Load the Neural Net. NOTE: set number of distinct labels here
     model = Net(n_classes=6)
