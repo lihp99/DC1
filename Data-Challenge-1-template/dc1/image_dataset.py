@@ -33,7 +33,7 @@ class ImageDataset:
         image = torch.from_numpy(self.imgs[idx] / 255).float()
         label = self.targets[idx]
 
-        # normalizing the data
+        # normalized the data
         mean = image.mean()
         std = image.std()
         normalize = T.Normalize(mean, std, inplace=False)
