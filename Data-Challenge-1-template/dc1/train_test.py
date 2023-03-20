@@ -3,6 +3,10 @@ import torch
 from net import Net
 from batch_sampler import BatchSampler
 from typing import Callable, List
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import classification_report
+import numpy as np
+
 
 
 def train_model(
@@ -46,6 +50,8 @@ def test_model(
     # Setting the model to evaluation mode:
     model.eval()
     losses = []
+    predicted_labels = []
+    true_labels = []
     # We need to make sure we do not update our model based on the test data:
     with torch.no_grad():
         correct = 0
@@ -60,5 +66,14 @@ def test_model(
             prediction1 = model.forward(x).argmax(axis=1)
             correct += sum(prediction1 == y)
             count += len(y)
+
+            predicted_labels.extend(prediction1.detach().cpu().numpy())
+            true_labels.extend(y.detach().cpu().numpy())
         accuracy = (correct/count).detach().cpu().numpy()
-    return losses, accuracy
+
+    predicted_labels = np.array(predicted_labels)
+    true_labels = np.array(true_labels)
+    confusion_mat = confusion_matrix(true_labels, predicted_labels)
+    class_report = classification_report(true_labels, predicted_labels)
+
+    return losses, accuracy, confusion_mat, class_report
