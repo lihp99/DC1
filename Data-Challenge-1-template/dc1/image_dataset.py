@@ -42,6 +42,15 @@ class ImageDataset:
         # sharpening the data
         img_sharp = TF.adjust_sharpness(norm_image, sharpness_factor=5)
 
+        # kornia sharpening - incomplete
+        # image = image.unsqueeze(0)
+        # image = torch.clamp(image, min=0.0)
+        # sharpen = kornia.filters.UnsharpMask((9,9), (2.5,2.5))
+        # image_sharp = sharpen(image)
+        # image_sharp = torch.clamp(image_sharp, min=0.0)
+        # image_eq = kornia.enhance.equalize(image_sharp)
+        # return image_eq, label
+        
         return img_sharp, label
 
 
