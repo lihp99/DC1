@@ -6,9 +6,11 @@ from os import path
 from typing import Tuple
 from pathlib import Path
 import os
-import pip
-pip.main(['install','kornia'])
-
+import torchvision
+import kornia
+import torchvision.transforms.functional as TF
+import torchvision.transforms as T
+import torch.nn.functional as F
 
 class ImageDataset:
     """
@@ -40,7 +42,7 @@ class ImageDataset:
         # sharpening the data
         img_sharp = TF.adjust_sharpness(norm_image, sharpness_factor=5)
 
-        return image_eq, label, img_sharp
+        return img_sharp, label
 
 
 
@@ -90,13 +92,13 @@ if __name__ == "__main__":
     test_y = load_numpy_arr_from_url(
         url="https://surfdrive.surf.nl/files/index.php/s/wLXiOjVAW4AWlXY/download"
     )
-    np.save("../data/Y_test.npy", test_y)
+     np.save("../data/Y_test.npy", test_y)
     ### Load data
     train_x = load_numpy_arr_from_url(
         url="https://surfdrive.surf.nl/files/index.php/s/4rwSf9SYO1ydGtK/download"
     )
-    np.save("../data/X_train.npy", train_x)
+     np.save("../data/X_train.npy", train_x)
     test_x = load_numpy_arr_from_url(
         url="https://surfdrive.surf.nl/files/index.php/s/dvY2LpvFo6dHef0/download"
     )
-    np.save("../data/X_test.npy", test_x)
+     np.save("../data/X_test.npy", test_x)
