@@ -1,0 +1,17 @@
+Data-Challenge-1-template/dc1/image_dataset.py
+Data-Challenge-1-template/dc1/main.py
+Data-Challenge-1-template/dc1/train_test.py
+local/
+Data_Challenge_1_template.egg-info/
+model_weights/
+*.ipynb
+artifacts/
+.DS_store
+_pycache_/
+DL/
+data/
+.vscode/
+Data-Challenge-1-template/dc1/__pycache__/batch_sampler.cpython-38.pyc
+Data-Challenge-1-template/dc1/__pycache__/image_dataset.cpython-38.pyc
+Data-Challenge-1-template/dc1/__pycache__/net.cpython-38.pyc
+Data-Challenge-1-template/dc1/__pycache__/train_test.cpython-38.pyc
