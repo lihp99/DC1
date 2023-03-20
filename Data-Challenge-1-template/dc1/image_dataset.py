@@ -6,6 +6,8 @@ from os import path
 from typing import Tuple
 from pathlib import Path
 import os
+import pip
+pip.main(['install','kornia'])
 
 
 class ImageDataset:
@@ -28,7 +30,19 @@ class ImageDataset:
     def __getitem__(self, idx: int) -> Tuple[torch.Tensor, np.ndarray]:
         image = torch.from_numpy(self.imgs[idx] / 255).float()
         label = self.targets[idx]
-        return image, label
+
+        # normalizing the data
+        mean = image.mean()
+        std = image.std()
+        normalize = T.Normalize(mean, std, inplace=False)
+        norm_image = normalize(image)
+
+        # sharpening the data
+        img_sharp = TF.adjust_sharpness(norm_image, sharpness_factor=5)
+
+        return image_eq, label, img_sharp
+
+
 
     @staticmethod
     def load_numpy_arr_from_npy(path: Path) -> np.ndarray:

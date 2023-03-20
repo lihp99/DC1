@@ -85,12 +85,12 @@ def main(args: argparse.Namespace, activeloop: bool = True) -> None:
             print(f"\nEpoch {e + 1} training done, loss on train set: {mean_loss}\n")
 
             # Testing:
-            losses = test_model(model, test_sampler, loss_function, device)
+            losses, accuracy = test_model(model, test_sampler, loss_function, device)
 
             # # Calculating and printing statistics:
             mean_loss = sum(losses) / len(losses)
             mean_losses_test.append(mean_loss)
-            print(f"\nEpoch {e + 1} testing done, loss on test set: {mean_loss}\n")
+            print(f"\nEpoch {e + 1} testing done, loss on test set: {mean_loss}; Accuracy:{accuracy}\n")
 
             ### Plotting during training
             plotext.clf()

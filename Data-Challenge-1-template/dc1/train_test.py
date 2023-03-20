@@ -48,6 +48,8 @@ def test_model(
     losses = []
     # We need to make sure we do not update our model based on the test data:
     with torch.no_grad():
+        correct = 0
+        count = 0
         for (x, y) in tqdm(test_sampler):
             # Making sure our samples are stored on the same device as our model:
             x = x.to(device)
@@ -55,4 +57,8 @@ def test_model(
             prediction = model.forward(x)
             loss = loss_function(prediction, y)
             losses.append(loss)
-    return losses
+            prediction1 = model.forward(x).argmax(axis=1)
+            correct += sum(prediction1 == y)
+            count += len(y)
+        accuracy = (correct/count).detach().cpu().numpy()
+    return losses, accuracy
