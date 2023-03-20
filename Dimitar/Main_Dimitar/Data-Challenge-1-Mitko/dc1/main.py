@@ -29,11 +29,11 @@ def main(args: argparse.Namespace, activeloop: bool = True) -> None:
     test_dataset = ImageDataset(Path("../data/X_test.npy"), Path("../data/Y_test.npy"))
 
     # Load the Neural Net. NOTE: set number of distinct labels here
-    # model = Net(n_classes=6)
-    model = torchvision.models.resnet18(pretrained=50)
-    model.conv1 = nn.Conv2d(1, 64, kernel_size=7, stride=2, padding=3, bias=False)
+    model = Net(n_classes=6)
+    # model = torchvision.models.resnet18(pretrained=True)
+    # model.conv1 = nn.Conv2d(1, 64, kernel_size=7, stride=2, padding=3, bias=False)
     # model.features[0] = nn.Conv2d(1, 64, kernel_size=11, stride=4, padding=2)
-    model.fc = nn.Linear(512, 6)
+    # model.fc = nn.Linear(512, 6)
 
     # Initialize optimizer(s) and loss function(s)
     optimizer = optim.Adam(model.parameters(), lr=0.0003, weight_decay=0.0001)
@@ -135,13 +135,13 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        "--nb_epochs", help="number of training iterations", default=2, type=int
+        "--nb_epochs", help="number of training iterations", default=10, type=int
     )
     parser.add_argument("--batch_size", help="batch_size", default=25, type=int)
     parser.add_argument(
         "--balanced_batches",
         help="whether to balance batches for class labels",
-        default=False,
+        default=True,
         type=bool,
     )
     args = parser.parse_args()

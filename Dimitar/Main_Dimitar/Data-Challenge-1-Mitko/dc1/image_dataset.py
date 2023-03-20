@@ -29,10 +29,11 @@ class ImageDataset:
 
     def __getitem__(self, idx: int) -> Tuple[torch.Tensor, np.ndarray]:
         image = torch.from_numpy(self.imgs[idx] / 255).float()
-        m = image.mean()
-        s = image.std()
-        transform = transforms.Compose([transforms.RandomAdjustSharpness(1, p=1), transforms.Normalize(m, s)])
-        image = transform(image)
+        # m = image.mean()
+        # s = image.std()
+        # transform = transforms.Compose([transforms.RandomAdjustSharpness(1, p=1), transforms.Normalize(m, s)])
+        # image = transform(image)
+        image = torch.stack([image[0]]*3, dim=0)
         label = self.targets[idx]
         return image, label
 
@@ -47,7 +48,7 @@ class ImageDataset:
         Outputs:
         dataset: numpy array with input features or labels
         """
-
+        
         return np.load(path)
 
 
