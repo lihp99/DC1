@@ -29,6 +29,7 @@ def main(args: argparse.Namespace, activeloop: bool = True) -> None:
 
     # Load the Neural Net. NOTE: set number of distinct labels here
     model = Net(n_classes=6)
+    # model = Net()
 
     # Initialize optimizer(s) and loss function(s)
     optimizer = optim.Adam(model.parameters(), lr=0.001)
