@@ -33,26 +33,25 @@ class ImageDataset:
         image = torch.from_numpy(self.imgs[idx] / 255).float()
         label = self.targets[idx]
 
-        # normalized the data
+        # geometric & miscellaneous data augmentation 
         mean = image.mean()
         std = image.std()
-        normalize = T.Normalize(mean, std, inplace=False)
-        norm_image = normalize(image)
+        transform = T.Compose([
+            T.RandomVerticalFlip(),
+            T.RandomHorizontalFlip(),
+            T.Normalize(mean, std, inplace=False),
+        ])
 
-        # sharpening the data
-        img_sharp = TF.adjust_sharpness(norm_image, sharpness_factor=5)
+        # functional transforms, unsharp masking + histogram equalization
+        if idx > int((len(self.targets))/2):
+            image = transform(image)
+            image = TF.adjust_sharpness(image, sharpness_factor=5)
+            gaussian = T.GaussianBlur(kernel_size=(5, 9), sigma=(2, 5))
+            gaussian_image = gaussian(image) 
+            image = image+(image-gaussian_image)
+            image = TF.equalize(image.type(torch.uint8))
 
-        # kornia sharpening - incomplete
-        # image = image.unsqueeze(0)
-        # image = torch.clamp(image, min=0.0)
-        # sharpen = kornia.filters.UnsharpMask((9,9), (2.5,2.5))
-        # image_sharp = sharpen(image)
-        # image_sharp = torch.clamp(image_sharp, min=0.0)
-        # image_eq = kornia.enhance.equalize(image_sharp)
-        # return image_eq, label
-        
-        return img_sharp, label
-
+        return image, label
 
 
     @staticmethod
@@ -66,8 +65,10 @@ class ImageDataset:
         Outputs:
         dataset: numpy array with input features or labels
         """
-
-        return np.load(path)
+        original_file = np.load(path)
+        augmented_file = np.load(path)
+        numpy_array = np.concatenate((original_file, augmented_file))
+        return numpy_array
 
 
 def load_numpy_arr_from_url(url: str) -> np.ndarray:
