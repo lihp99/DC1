@@ -50,7 +50,7 @@ def main(args: argparse.Namespace, activeloop: bool = True) -> None:
         device = "cuda"
         model.to(device)
         # Creating a summary of our model and its layers:
-        summary(model, (1, 128, 128), device=device)
+        summary(model, (1, 128, 128), device = device)
     elif (
         torch.backends.mps.is_available() and not DEBUG
     ):  # PyTorch supports Apple Silicon GPU's from version 1.12
@@ -61,7 +61,7 @@ def main(args: argparse.Namespace, activeloop: bool = True) -> None:
         print("@@@ No GPU boosting device found, training on CPU...")
         device = "cpu"
         # Creating a summary of our model and its layers:
-        summary(model, (1, 128, 128), device=device)
+        summary(model, (1, 128, 128), device = device)
 
     # Lets now train and test our model for multiple epochs:
     train_sampler = BatchSampler(
