@@ -31,7 +31,7 @@ def main(args: argparse.Namespace, activeloop: bool = True) -> None:
     model = Net(n_classes=6)
 
     # Initialize optimizer(s) and loss function(s)
-    optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.1)
+    optimizer = optim.Adam(model.parameters(), lr=0.001)
     loss_function = nn.CrossEntropyLoss()
 
     # fetch epoch and batch count from arguments
@@ -50,7 +50,7 @@ def main(args: argparse.Namespace, activeloop: bool = True) -> None:
         device = "cuda"
         model.to(device)
         # Creating a summary of our model and its layers:
-        summary(model, (1, 128, 128), device=device)
+        summary(model, (1, 128, 128), device = device)
     elif (
         torch.backends.mps.is_available() and not DEBUG
     ):  # PyTorch supports Apple Silicon GPU's from version 1.12
@@ -61,7 +61,7 @@ def main(args: argparse.Namespace, activeloop: bool = True) -> None:
         print("@@@ No GPU boosting device found, training on CPU...")
         device = "cpu"
         # Creating a summary of our model and its layers:
-        summary(model, (1, 128, 128), device=device)
+        summary(model, (1, 128, 128), device = device)
 
     # Lets now train and test our model for multiple epochs:
     train_sampler = BatchSampler(
@@ -85,12 +85,12 @@ def main(args: argparse.Namespace, activeloop: bool = True) -> None:
             print(f"\nEpoch {e + 1} training done, loss on train set: {mean_loss}\n")
 
             # Testing:
-            losses = test_model(model, test_sampler, loss_function, device)
+            losses, accuracy, confusion_mat, class_report = test_model(model, test_sampler, loss_function, device)
 
             # # Calculating and printing statistics:
             mean_loss = sum(losses) / len(losses)
             mean_losses_test.append(mean_loss)
-            print(f"\nEpoch {e + 1} testing done, loss on test set: {mean_loss}\n")
+            print(f"\nEpoch {e + 1} testing done, loss on test set: {mean_loss}; Accuracy:{accuracy}; \n{confusion_mat}\n{class_report}")
 
             ### Plotting during training
             plotext.clf()
