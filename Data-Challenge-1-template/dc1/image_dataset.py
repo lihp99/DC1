@@ -1,3 +1,4 @@
+# this the image_dataset without augmentation and transformations
 import numpy as np
 import torch
 import requests
@@ -7,10 +8,8 @@ from typing import Tuple
 from pathlib import Path
 import os
 import torchvision
-import kornia
-import torchvision.transforms.functional as TF
-import torchvision.transforms as T
-import torch.nn.functional as F
+import torchvision.transforms as transforms
+
 
 class ImageDataset:
     """
@@ -31,28 +30,13 @@ class ImageDataset:
 
     def __getitem__(self, idx: int) -> Tuple[torch.Tensor, np.ndarray]:
         image = torch.from_numpy(self.imgs[idx] / 255).float()
+
+        # Changing the number of channels from 1 to 3 to pass through the models
+        transform = transforms.Compose([transforms.ToPILImage(), transforms.Grayscale(num_output_channels=3), transforms.ToTensor()])
+
         label = self.targets[idx]
-
-        # geometric & miscellaneous data augmentation 
-        mean = image.mean()
-        std = image.std()
-        transform = T.Compose([
-            T.RandomVerticalFlip(),
-            T.RandomHorizontalFlip(),
-            T.Normalize(mean, std, inplace=False),
-        ])
-
-        # functional transforms, unsharp masking + histogram equalization
-        if idx > int((len(self.targets))/2):
-            image = transform(image)
-            image = TF.adjust_sharpness(image, sharpness_factor=5)
-            gaussian = T.GaussianBlur(kernel_size=(5, 9), sigma=(2, 5))
-            gaussian_image = gaussian(image) 
-            image = image+(image-gaussian_image)
-            image = TF.equalize(image.type(torch.uint8))
-
+        image = transform(image)
         return image, label
-
 
     @staticmethod
     def load_numpy_arr_from_npy(path: Path) -> np.ndarray:
@@ -65,10 +49,8 @@ class ImageDataset:
         Outputs:
         dataset: numpy array with input features or labels
         """
-        original_file = np.load(path)
-        augmented_file = np.load(path)
-        numpy_array = np.concatenate((original_file, augmented_file))
-        return numpy_array
+        
+        return np.load(path)
 
 
 def load_numpy_arr_from_url(url: str) -> np.ndarray:
