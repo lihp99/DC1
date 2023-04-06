@@ -1,4 +1,4 @@
-# DC1_group14
+# DC1
 
 In order to run the code the following steps should be followed:
 1. Open the file 'Data-Challenge-1-template' in the github page.
