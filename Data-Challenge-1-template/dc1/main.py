@@ -43,7 +43,7 @@ def main(args: argparse.Namespace, activeloop: bool = True) -> None:
     batch_size = args.batch_size
 
     # Define the early stopping parameters
-    patience = 1
+    patience = 8
     counter = 0
     best_accuracy = 0
     
