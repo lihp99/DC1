@@ -24,3 +24,4 @@ urllib3==1.26.13
 scikit-learn
 torchvision
 kornia
+seaborn
