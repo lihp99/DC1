@@ -8,6 +8,7 @@ from sklearn.metrics import classification_report
 import numpy as np
 
 
+
 def train_model(
         model: Net,
         train_sampler: BatchSampler,
@@ -75,4 +76,5 @@ def test_model(
     true_labels = np.array(true_labels)
     confusion_mat = confusion_matrix(true_labels, predicted_labels)
     class_report = classification_report(true_labels, predicted_labels)
-    return losses, accuracy, confusion_mat, class_report
+    
+    return losses, accuracy, confusion_mat, class_report, true_labels, predicted_labels
