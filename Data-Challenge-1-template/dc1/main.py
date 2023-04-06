@@ -127,11 +127,20 @@ def main(args: argparse.Namespace, activeloop: bool = True) -> None:
                 # Saving the model everytime better accuracy occurs (NOTE: once the training is done, the last saved model in model_weights is the model with the best accuracy)
                 torch.save(model.state_dict(), f"model_weights/model_{now.month:02}_{now.day:02}_{now.hour}_{now.minute:02}.txt")
             else:
-                counter += 1
+                counter +=
                 if counter >= patience:
                     print("Early stopping")
                     break
-
+    # Heatmap of the last confusion matrix from the model
+    labels = ['Atelectasis', 'Effusion', 'Infiltration', 'No Finding', 'Nodule', 'Pneumothorax']
+    plt.figure(figsize=(10,6))
+    fx=sns.heatmap(confusion_matrix(true_labels,predicted_labels), annot=True, fmt=".2f",cmap="GnBu")
+    fx.set_title('Confusion Matrix \n')
+    fx.set_xlabel('\n Predicted Values\n')
+    fx.set_ylabel('Actual Values\n')
+    fx.xaxis.set_ticklabels(labels)
+    fx.yaxis.set_ticklabels(labels)
+    plt.show()
 
     # # retrieve current time to label artifacts
     # now = datetime.now()
