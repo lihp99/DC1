@@ -10,3 +10,7 @@ In order to run the code the following steps should be followed:
 
 
 All other files can be ignored for grading purposes. These files are used by various members of the group to test things out.
+Note:
+- Early stopping has been applied to the model. To test the best model in the epoch with best accuracy, the last model weights that were saved is the model weights of the epoch that yielded the best accuracy
+- The files experiment_not_augmented.py and experiment_augmentex.py were added to show how the experiments were set up
+- The file image_dataset1.py includes augmentations and transformations of the data, which is only used in experiment_augmented.py. In main.py image_dataset.py is used since it gives better results.
