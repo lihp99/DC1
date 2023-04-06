@@ -15,4 +15,4 @@ Note:
 - The files experiment_not_augmented.py and experiment_augmentex.py were added to show how the experiments were set up
 - The file image_dataset1.py includes augmentations and transformations of the data, which is only used in experiment_augmented.py. In main.py image_dataset.py is used since it gives better results.
 
-IMPORTANT!!! It is important to pip install the cuda version of torch to run the model faster. If not installed, after pip installing all libraries in step 4, Pip uninstall torch and then pip install the cuda version of torch. In order to do that, go to https://pytorch.org/get-started/locally/ and downloand the version of cuda torch that corresponds to the cuda installed on the computer
+IMPORTANT!!! It is important to pip install the cuda version of torch to run the model faster. If not installed, after pip installing all libraries in step 4, Pip uninstall torch and then pip install the cuda version of torch. In order to do that, go to https://pytorch.org/get-started/locally/ and download the version of cuda torch that corresponds to the cuda installed on the computer
