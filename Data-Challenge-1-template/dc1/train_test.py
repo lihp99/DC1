@@ -50,6 +50,7 @@ def test_model(
     # Setting the model to evaluation mode:
     model.eval()
     losses = []
+
     predicted_labels = []
     true_labels = []
     # We need to make sure we do not update our model based on the test data:
@@ -75,5 +76,5 @@ def test_model(
     true_labels = np.array(true_labels)
     confusion_mat = confusion_matrix(true_labels, predicted_labels)
     class_report = classification_report(true_labels, predicted_labels)
-
-    return losses, accuracy, confusion_mat, class_report
+    
+    return losses, accuracy, confusion_mat, class_report, true_labels, predicted_labels

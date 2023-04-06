@@ -33,10 +33,6 @@ def main(args: argparse.Namespace, activeloop: bool = True) -> None:
 
     # Load the Neural Net. NOTE: set number of distinct labels here
     model = Net(n_classes=6)
-    # model = torchvision.models.resnet18(pretrained=True)
-    # model.conv1 = nn.Conv2d(1, 64, kernel_size=7, stride=2, padding=3, bias=False)
-    # model.features[0] = nn.Conv2d(1, 64, kernel_size=11, stride=4, padding=2)
-    # model.fc = nn.Linear(512, 6)
 
     # Initialize optimizer(s) and loss function(s)
     optimizer = optim.Adam(model.parameters(), lr=0.0003, betas=(0.9, 0.999), eps=1e-08, weight_decay=1e-5)
@@ -47,7 +43,7 @@ def main(args: argparse.Namespace, activeloop: bool = True) -> None:
     batch_size = args.batch_size
 
     # Define the early stopping parameters
-    patience = 8
+    patience = 1
     counter = 0
     best_accuracy = 0
     
@@ -127,7 +123,7 @@ def main(args: argparse.Namespace, activeloop: bool = True) -> None:
                 # Saving the model everytime better accuracy occurs (NOTE: once the training is done, the last saved model in model_weights is the model with the best accuracy)
                 torch.save(model.state_dict(), f"model_weights/model_{now.month:02}_{now.day:02}_{now.hour}_{now.minute:02}.txt")
             else:
-                counter +=
+                counter += 1
                 if counter >= patience:
                     print("Early stopping")
                     break
@@ -155,8 +151,8 @@ def main(args: argparse.Namespace, activeloop: bool = True) -> None:
     figure(figsize=(9, 10), dpi=80)
     fig, (ax1, ax2) = plt.subplots(2, sharex=True)
     
-    ax1.plot(range(1, 1 + n_epochs), [x.detach().cpu() for x in mean_losses_train], label="Train", color="blue")
-    ax2.plot(range(1, 1 + n_epochs), [x.detach().cpu() for x in mean_losses_test], label="Test", color="red")
+    ax1.plot(range(1, 1 + len(mean_losses_train)), [x.detach().cpu() for x in mean_losses_train], label="Train", color="blue")
+    ax2.plot(range(1, 1 + len(mean_losses_train)), [x.detach().cpu() for x in mean_losses_test], label="Test", color="red")
     fig.legend()
     
     # Check if /artifacts/ subdir exists
@@ -171,7 +167,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        "--nb_epochs", help="number of training iterations", default=10, type=int
+        "--nb_epochs", help="number of training iterations", default=20, type=int
     )
     parser.add_argument("--batch_size", help="batch_size", default=25, type=int)
     parser.add_argument(
